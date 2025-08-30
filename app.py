@@ -4,6 +4,7 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from dotenv import load_dotenv
+from datetime import datetime
 
 # .env...環境変数を定義するためのテキストファイル。
 # override=True：既にOS等で定義済みの環境変数を.envの内容で上書き実行する。
@@ -46,11 +47,16 @@ def callback():
 # WebhookHandlerでリクエストを受け取ってhandle_message関数で受け取ったメッセージをそのまま返信
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.broadcast(TextSendMessage(text = "絶対にばかって文章にいれないでね"))
-    if "ばか" in event.message.text:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="今バカって言いました？"))
-    else:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    # 現在の日時を取得
+    current_time = datetime.now()
+    # 日本語形式で日時をフォーマット
+    formatted_time = current_time.strftime("%Y年%m月%d日 %H時%M分%S秒")
+
+    # 日時を含むメッセージを作成
+    reply_message = f"メッセージを受信しました。\n受信時刻: {formatted_time}"
+
+    # 返信メッセージを送信
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
 
 
 # ポート番号の設定
