@@ -46,7 +46,10 @@ def callback():
 # WebhookHandlerでリクエストを受け取ってhandle_message関数で受け取ったメッセージをそのまま返信
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
+    if "ばか" in TextMessage:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="今バカって言いました？"))
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=event.message.text))
 
 
 # ポート番号の設定
