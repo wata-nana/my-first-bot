@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # override=True：既にOS等で定義済みの環境変数を.envの内容で上書き実行する。
 load_dotenv(override=True)
 
-line_bot_api = line_bot_api(os.environ["ACCESS_TOKEN"])
+line_bot_api = LineBotApi(os.environ["ACCESS_TOKEN"])
 handler = WebhookHandler(os.environ["CHANNEL_SECRET"])
 
 app = Flask(__name__)
